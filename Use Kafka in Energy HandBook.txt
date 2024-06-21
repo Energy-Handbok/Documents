@@ -1,0 +1,12 @@
+Kafka: 
+- dùng trong create order (dùng để rollback về nếu có exception xảy ra)
+	-> check balance user để trừ tiền 	(success thì thêm event này vào HashMap<String, Object> - store name event, object dùng để khi có lỗi thì dùng object này rollback lại)
+	-> update lại stock của food 		(success thì thêm event này vào HashMap)
+	-> tạo transaction 			(success thì thêm event này vào HashMap)
+-> nếu có lỗi saỷ ra ở bước nào đó thì sẽ lấy hết event success trong HashMap ra rollback
+-> kafka sẽ gửi data rollback về cho các service đó
+-> các service đó sẽ nhận msg từ kafka và tiến hành update lại data của mình
+
+- dùng trong backgroundjob
+	-> mỗi chạy chạy background job check sinh nhật customer
+	-> nếu đúng thì gửi info qua cho notiservice nó tạo noti đến khách hàng
